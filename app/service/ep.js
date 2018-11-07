@@ -12,11 +12,12 @@ class EpService extends Service {
     if (!id) {
       return [];
     }
-
     const {
       data: html
     } = await this.ctx.curl(
-      `${this.baseUrl}/ep/${id}`
+      `${this.baseUrl}/ep/${id}`, {
+        timeout: ['20s', '20s']
+      }
     );
 
     const floorList = this.parse(html.toString());

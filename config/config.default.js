@@ -7,7 +7,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1541319966583_8610';
 
   // add your config here
-  config.middleware = ['proxy'];
+  config.middleware = ['proxy', 'errorHandler'];
 
   config.proxy = {
     targets: {
@@ -22,7 +22,7 @@ module.exports = appInfo => {
   };
 
   config.bangumi = {
-    baseUrl: 'http://bangumi.tv/',
+    baseUrl: 'http://bgm.tv/',
   };
 
   return config;

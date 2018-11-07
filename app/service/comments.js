@@ -7,10 +7,16 @@ class CommentService extends Service {
       return [];
     }
 
-    const { baseUrl } = this.config.bangumi;
+    const {
+      baseUrl
+    } = this.config.bangumi;
 
-    const { data: html } = await this.ctx.curl(
-      `${baseUrl}/subject/${id}/comments?page=${page}`
+    const {
+      data: html
+    } = await this.ctx.curl(
+      `${baseUrl}/subject/${id}/comments?page=${page}`, {
+        timeout: ['20s', '20s']
+      }
     );
 
     const comments = this.parse(html.toString());

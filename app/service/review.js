@@ -11,7 +11,7 @@ class ReviewService extends Service {
   async request(url, opts) {
     url = `${this.root}${url}`;
     opts = Object.assign({
-      timeout: ['10s', '10s'],
+      timeout: ['20s', '20s'],
       dataType: 'json',
     }, opts);
     return this.ctx.curl(url, opts);
