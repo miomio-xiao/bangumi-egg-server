@@ -4,6 +4,7 @@
   "description": "bangumi server",
   "private": true,
   "dependencies": {
+    "bangumi-data": "^0.2.38",
     "cheerio": "^1.0.0-rc.2",
     "egg": "^2.2.1",
     "egg-scripts": "^2.5.0",
