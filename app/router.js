@@ -9,6 +9,7 @@ module.exports = app => {
   router.get('/api/subject/:id/comments', controller.comments.list);
   router.get('/api/subject/:id/resource', controller.resource.list);
   router.get('/api/ep/:id', controller.ep.list);
+  router.get('/api/blog/:id', controller.blog.content);
 
   // 第三方api
   router.get('/api/review', controller.review.list);
