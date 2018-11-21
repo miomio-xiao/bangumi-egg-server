@@ -32,13 +32,18 @@ class CommentService extends Service {
     const comments = [];
 
     $comments.map((index, el) => {
-      const $avatar = $(el).find('.avatarNeue');
+      const $el = $(el);
+
+      const $avatar = $el.find('.avatarNeue');
       const style = $avatar.attr('style');
       const avatar = style.match(/url\(["'](.*)["']\)/)[1];
 
-      const $text = $(el).find('.text');
+      const $text = $el.find('.text');
 
-      const name = $text.find('a').text();
+      const $user = $text.find('a');
+      const name = $user.text();
+      const href = $user.attr('href');
+
       const age = $text
         .find('small')
         .text()
@@ -57,8 +62,11 @@ class CommentService extends Service {
       }
 
       comments.push({
-        name,
-        avatar,
+        user: {
+          href,
+          avatar,
+          name
+        },
         age,
         content,
         starNum,

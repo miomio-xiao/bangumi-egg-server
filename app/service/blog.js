@@ -71,6 +71,8 @@ class BlogService extends Service {
 
   parsePageHeader($el) {
     const $user = $el.find('a.avatar');
+    const name = $user.text().trim();
+    const href = $user.attr('href');
 
     const $avatar = $el.find('img.avatar');
     const avatar = $avatar.attr('src');
@@ -82,10 +84,10 @@ class BlogService extends Service {
 
     return {
       user: {
-        href: $user.attr('href'),
-        name: $user.text().trim()
+        href,
+        name,
+        avatar
       },
-      avatar,
       title: $title.text().trim()
     };
   }
