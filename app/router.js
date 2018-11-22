@@ -11,6 +11,8 @@ module.exports = app => {
   router.get('/api/ep/:id', controller.ep.list);
   router.get('/api/blog/:id', controller.blog.content);
 
+  router.get('/api/rank/:num', controller.rank.top);
+
   // 第三方api
   router.get('/api/review', controller.review.list);
 };
