@@ -6,7 +6,7 @@ class RankService extends Service {
   constructor(ctx) {
     super(ctx);
 
-    this.baseUrl = this.config.bangumi.baseUrl
+    this.baseUrl = this.config.bangumi.baseUrl;
     this.pageSize = 24;
   }
 
@@ -45,17 +45,16 @@ class RankService extends Service {
 
       this.logger.info(`fetch page: ${page} success`);
 
-      page++;
       const rankInfo = this.ctx.service.browser.parsePage(html);
 
       rankList.push(...rankInfo);
 
       if (rankList.length > num) {
-        rankList.slice(0, num);
+        rankList.splice(num);
         break;
       }
 
-      if (page > num / this.pageSize) {
+      if (page++ > num / this.pageSize) {
         break;
       }
     }

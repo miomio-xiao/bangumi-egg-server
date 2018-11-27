@@ -22,7 +22,7 @@ module.exports = appInfo => {
   };
 
   config.bangumi = {
-    baseUrl: 'http://bgm.tv/',
+    baseUrl: 'http://bgm.tv',
   };
 
   return config;

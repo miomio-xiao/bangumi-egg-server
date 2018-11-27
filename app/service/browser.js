@@ -4,6 +4,32 @@ const Service = require('egg').Service;
 const cheerio = require('cheerio');
 
 class BrowserService extends Service {
+  constructor(ctx) {
+    super(ctx);
+
+    this.baseUrl = this.config.bangumi.baseUrl;
+  }
+
+  async findList({
+    type = '',
+    airtime,
+    sort = 'rank',
+    page = 1
+  }) {
+    let typeUrl = type ? type + '/' : '';
+    let airtimeUrl = airtime ? 'airtime/' + airtime + '/' : '';
+
+    let url = `${this.baseUrl}/anime/browser/${typeUrl}${airtimeUrl}?sort=${sort}&page=${page}`;
+
+    const {
+      data
+    } = await this.ctx.curl(url, {
+      timeout: ['20s', '20s']
+    });
+
+    return this.parsePage(data.toString());
+  }
+
   parsePage(html) {
     const $ = cheerio.load(html, {
       decodeEntities: false
@@ -34,7 +60,11 @@ class BrowserService extends Service {
       const $cover = $el.find('img.cover');
       const cover = $cover.attr('src');
 
-      const info = $el.find('.info').text().trim().replace(/\n\s+/g, ' ');
+      const info = $el
+        .find('.info')
+        .text()
+        .trim()
+        .replace(/\n\s+/g, ' ');
 
       let rate = 0;
       let rateNum = 0;
@@ -43,7 +73,10 @@ class BrowserService extends Service {
 
       if ($rate.length) {
         rate = $rate.text();
-        rateNum = $rateInfo.find('.tip_j').text().match(/\d+/)[0];
+        rateNum = $rateInfo
+          .find('.tip_j')
+          .text()
+          .match(/\d+/)[0];
       }
 
       const toInt = this.ctx.helper.toInt;

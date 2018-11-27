@@ -13,6 +13,10 @@ module.exports = app => {
 
   router.get('/api/rank/:num', controller.rank.top);
 
+  router.get('/api/browser', controller.browser.list);
+  router.get('/api/browser/:type', controller.browser.list);
+  router.get('/api/browser/:type/:airtime', controller.browser.list);
+
   // 第三方api
   router.get('/api/review', controller.review.list);
 };
