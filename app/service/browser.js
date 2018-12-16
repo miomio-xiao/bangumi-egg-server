@@ -30,6 +30,16 @@ class BrowserService extends Service {
     return this.parsePage(data.toString());
   }
 
+  async findTopList(airtimeList, num = 1) {
+    const list = await Promise.all(
+      airtimeList.map(airtime => this.findList({
+        airtime
+      }))
+    );
+
+    return list.map((list = []) => list.slice(0, num));
+  }
+
   parsePage(html) {
     const $ = cheerio.load(html, {
       decodeEntities: false

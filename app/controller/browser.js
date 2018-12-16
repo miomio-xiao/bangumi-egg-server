@@ -6,8 +6,14 @@ class BrowserController extends Controller {
   async list() {
     const ctx = this.ctx;
 
-    const { airtime, type } = ctx.params;
-    const { page, sort } = ctx.query;
+    const {
+      airtime,
+      type
+    } = ctx.params;
+    const {
+      page,
+      sort
+    } = ctx.query;
 
     const infoList = await ctx.service.browser.findList({
       airtime,
@@ -17,6 +23,22 @@ class BrowserController extends Controller {
     });
 
     ctx.body = infoList;
+    ctx.status = 200;
+  }
+
+  async collection() {
+    const ctx = this.ctx;
+    const {
+      airtime = []
+    } = ctx.queries;
+
+    const {
+      num
+    } = ctx.query;
+
+    const topList = await ctx.service.browser.findTopList(airtime, num);
+
+    ctx.body = topList;
     ctx.status = 200;
   }
 }

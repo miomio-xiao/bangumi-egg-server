@@ -13,6 +13,8 @@ module.exports = app => {
   router.get('/api/blog/:id', controller.blog.content);
 
   router.get('/api/rank/:num', controller.rank.top);
+
+  router.get('/api/browser-collection', controller.browser.collection);
   router.get('/api/browser', controller.browser.list);
   router.get('/api/browser/:type', controller.browser.list);
   router.get('/api/browser/:type/:airtime', controller.browser.list);
