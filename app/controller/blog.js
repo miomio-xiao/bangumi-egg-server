@@ -12,6 +12,18 @@ class BlogController extends Controller {
     ctx.body = content;
     ctx.status = 200;
   }
+
+  async list() {
+    const ctx = this.ctx;
+
+    const { page } = ctx.query;
+    const { id } = ctx.params;
+    
+    const blogList = await ctx.service.blog.list(id, page);
+
+    ctx.body = blogList;
+    ctx.status = 200;
+  }
 }
 
 module.exports = BlogController;

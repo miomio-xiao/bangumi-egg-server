@@ -33,6 +33,18 @@ class BlogService extends Service {
     };
   }
 
+  async list(id, page = 1) {
+    const {
+      data
+    } = await this.ctx.curl(`${this.baseUrl}/subject/${id}/reviews/${page}.html`, {
+      timeout: ['20s', '20s']
+    });
+
+    const html = data.toString();
+
+    return this.parseBlogList(html);
+  }
+
   parseBlog(html) {
     const $ = cheerio.load(html, {
       decodeEntities: false
@@ -90,6 +102,56 @@ class BlogService extends Service {
       },
       title: $title.text().trim()
     };
+  }
+
+  parseBlogList(html) {
+    const $ = cheerio.load(html, {
+      decodeEntities: false
+    });
+
+    const blogList = [];
+      
+    const $blogs = $('#entry_list > .item');
+    $blogs.each((index, el) => {
+      const $el = $(el);
+
+      const $title = $el.find('.title a');
+      const title = $title.text();
+      const url = $title.attr('href');
+      const id = url.match(/\d+/)[0];
+
+      const repliesMatch = $el.find('.orange').text().match(/\(\+(\d+)\)/);
+      const replies = repliesMatch ? repliesMatch[1] : 0;
+
+      const dateline = $el.find('small.time').text();
+      const summary = $el.find('.content').text().replace(/\(more\)$/, '');
+
+      const avatar = $el.find('.image img').attr('src');
+      const $user = $el.find('.tip_j a');
+      const nickname = $user.text();
+      const userUrl = $user.attr('href');
+
+      console.log(userUrl);
+      const username = userUrl.match(/user\/(.+)/)[1];
+
+      const user = {
+        url: userUrl,
+        username,
+        nickname,
+        avatar
+      }
+
+      blogList.push({
+        id,
+        title,
+        user,
+        replies,
+        dateline,
+        summary
+      });
+    })
+
+    return blogList;
   }
 }
 
