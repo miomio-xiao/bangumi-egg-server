@@ -56,7 +56,7 @@ class CommentService extends Service {
       const star = $text.find('.starsinfo').attr('class');
 
       if (star) {
-        const matchResult = star.match(/sstars(\d{1})/);
+        const matchResult = star.match(/sstars(\d+)/);
 
         starNum = matchResult ? matchResult[1] : 0;
       }
