@@ -19,6 +19,8 @@ module.exports = app => {
   router.get('/api/browser/:type', controller.browser.list);
   router.get('/api/browser/:type/:airtime', controller.browser.list);
 
+  router.get('/api/tag', controller.tag.list);
+
   // 第三方api
   router.get('/api/review', controller.review.list);
 };
