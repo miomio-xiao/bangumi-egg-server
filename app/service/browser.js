@@ -29,6 +29,25 @@ class BrowserService extends Service {
 
     return this.parsePage(data.toString());
   }
+  
+  async findTagList({
+    tag,
+    airtime,
+    sort = 'rank',
+    page = 1
+  }) {
+    let airtimeUrl = airtime ? 'airtime/' + airtime + '/' : '';
+
+    let url = `${this.baseUrl}/anime/tag/${encodeURIComponent(tag)}/${airtimeUrl}?sort=${sort}&page=${page}`;
+
+    const {
+      data
+    } = await this.ctx.curl(url, {
+      timeout: ['20s', '20s']
+    });
+
+    return this.parsePage(data.toString());
+  }
 
   async findTopList(airtimeList, num = 1) {
     const list = await Promise.all(

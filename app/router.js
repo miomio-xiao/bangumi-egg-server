@@ -20,6 +20,8 @@ module.exports = app => {
   router.get('/api/browser/:type/:airtime', controller.browser.list);
 
   router.get('/api/tag', controller.tag.list);
+  router.get('/api/tag/:tag', controller.browser.listByTag);
+  router.get('/api/tag/:tag/:airtime', controller.browser.listByTag);
 
   // 第三方api
   router.get('/api/review', controller.review.list);

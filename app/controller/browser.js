@@ -26,6 +26,30 @@ class BrowserController extends Controller {
     ctx.status = 200;
   }
 
+  async listByTag() {
+    const ctx = this.ctx;
+
+    const {
+      airtime,
+      tag
+    } = ctx.params;
+
+    const {
+      page,
+      sort
+    } = ctx.query;
+
+    const infoList = await ctx.service.browser.findTagList({
+      airtime,
+      tag,
+      page,
+      sort
+    });
+
+    ctx.body = infoList;
+    ctx.status = 200;
+  }
+
   async collection() {
     const ctx = this.ctx;
     const {
