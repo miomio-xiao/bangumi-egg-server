@@ -23,17 +23,28 @@ class TagService extends Service {
   }
 
   async fetchPage(page = 1) {
-    const {
-      data
-    } = await this.ctx.curl(`${this.baseUrl}/anime/tag?page=${page}`, {
-      timeout: ['20s', '20s']
-    });
+    const { data } = await this.ctx.curl(
+      `${this.baseUrl}/anime/tag?page=${page}`,
+      {
+        timeout: ['20s', '20s']
+      }
+    );
 
     const html = data.toString();
 
     const tagList = this.parsePage(html);
 
     return tagList;
+  }
+
+  async listBySubjectId(id) {
+    const { data } = await this.ctx.curl(`${this.baseUrl}/subject/${id}`, {
+      timeout: ['20s', '20s']
+    });
+
+    const html = data.toString();
+
+    return this.parseSubjectTagList(html);
   }
 
   parsePage(html) {
@@ -54,6 +65,30 @@ class TagService extends Service {
       if ($num.length) {
         num = parseInt($num.text().match(/\d+/)[0]);
       }
+
+      tagList.push({
+        text,
+        num
+      });
+    });
+
+    return tagList;
+  }
+
+  parseSubjectTagList(html) {
+    const $ = cheerio.load(html, {
+      decodeEntities: false
+    });
+
+    const $tagList = $('.subject_tag_section .inner a');
+
+    const tagList = [];
+
+    $tagList.each((index, el) => {
+      const $el = $(el);
+
+      const text = $el.find('span').text();
+      const num = parseInt($el.find('small').text());
 
       tagList.push({
         text,

@@ -9,6 +9,8 @@ module.exports = app => {
   router.get('/api/subject/:id/comments', controller.comments.list);
   router.get('/api/subject/:id/blogs', controller.blog.list);
   router.get('/api/subject/:id/resource', controller.resource.list);
+  router.get('/api/subject/:id/tag', controller.tag.listBySubject);
+
   router.get('/api/ep/:id', controller.ep.list);
   router.get('/api/blog/:id', controller.blog.content);
 
